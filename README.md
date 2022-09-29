@@ -8,6 +8,6 @@ mkdir build
 cd build
 cmake ..
 make
-Running
 
+Running
 ./test
