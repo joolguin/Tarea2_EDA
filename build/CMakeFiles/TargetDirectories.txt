@@ -1,0 +1,3 @@
+/Users/jose/Downloads/eda_main/io/build/CMakeFiles/test.dir
+/Users/jose/Downloads/eda_main/io/build/CMakeFiles/edit_cache.dir
+/Users/jose/Downloads/eda_main/io/build/CMakeFiles/rebuild_cache.dir
