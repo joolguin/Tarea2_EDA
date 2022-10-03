@@ -5,6 +5,7 @@ using namespace std;
 
 namespace io {
 	void readTextFile(const string &filename);
+	void getTags(const string &filename);
 }
 
 #endif
