@@ -33,59 +33,71 @@ namespace io {
 		return no_space;
 	}
 
-	void getClosingTags(const string &text){
+	void verifyHTML(const string &text){
+		stack <string> pila;
+		int Stop = 1;
+		int p = 0;
+		int error = 0;
+		int count_tags=1;
 		
-		stack<string> closing_tags;
-
-		for (size_t i = 0; i < text.size(); i++){
+		while (p < text.size() && Stop){
+			for (size_t i = 0; i < text.size(); i++){
 			const auto* character = &text.at(i);
-			
-			if(*character == '<'){
-				string cur_tag;
+				if(*character == '<'){
+					string op_tag;
+					string clo_tag;
 
-				if (*(character + 1) == '/'){
-					//i++;
-					character++;
-					while(*character != '>'){
-						cur_tag += *character;
+					if (*(character + 1) != '/'){
 						i++;
 						character++;
+
+						while(*character != '>'){
+							op_tag += *character;
+							i++;
+							character++;
 						}
-					closing_tags.push(cur_tag);
-				}
-			}
-		}
-		while(!closing_tags.empty()){
-			cout<<closing_tags.top()<<endl;
-			closing_tags.pop();}
-	}
-
-	void getOpenTags(const string &text){
-		stack<string> opening_tags;
-		for (size_t i = 0; i < text.size(); i++){
-			const auto* character = &text.at(i);
-			
-			if(*character == '<'){
-				string cur_tag;
-
-				if (*(character + 1) != '/'){
-					i++;
-					character++;
-
-					while(*character != '>'){
-						cur_tag += *character;
-						i++;
-						character++;
+						pila.push(op_tag);
+						count_tags++;
 					}
-					opening_tags.push(cur_tag);
+					else{
+						if(pila.empty()){
+							cout<<"faltan tags para cerrar"<<endl;
+							Stop = 0;
+						}
+						else{
+							string tag = pila.top();
+							pila.pop();
+							if (*(character + 1) == '/'){
+							i++;
+							character+=2;
+							while(*character != '>'){
+								clo_tag += *character;
+								i++;
+								character++;
+								}
+							}
+							if (tag != clo_tag){
+								cout<<"esperaba"<<" </"<<tag<<"> en la línea "<<count_tags<<endl;
+								Stop=0;
+								error++;
+							}
+							if (tag == clo_tag) {
+								cout<< "tag <"<<tag<<"> ok"<<endl;
+								Stop=0;
+							}
+						}
+					}
 				}
 			}
+			p++;
 		}
-		while(!opening_tags.empty()){
-			cout<<opening_tags.top()<<endl;
-			opening_tags.pop();
-		}
-		cout<<endl;
+		if (Stop == 1){
+			if(!pila.empty()){
+				cout<<"error, faltan tags por cerrar"<<endl;
+			}
+			else cout<<"valido"<<endl;
 
+		}
+		cout<<error<<" errores"<<endl;
 	}
 }
