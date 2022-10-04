@@ -1,6 +1,6 @@
 # Tarea2_EDA
 Validador de Documentos HTML
-#Eliminar OUTPUT.log para probar distintos .html
+Eliminar OUTPUT.log para probar distintos .html
 -------------------------
 Compiling with CMake
 
