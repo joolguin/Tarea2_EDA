@@ -1,7 +1,6 @@
 #include "io/io.hpp"
 #include <fstream>
 #include <iostream>
-#include <unordered_set>
 #include <stack> //LIFO (Last In, First Out)
 using namespace std;
 
@@ -22,7 +21,7 @@ namespace io {
 
 	}
 	
-	void getTags(const string& filename){
+	string removeSpace(const string& filename){
 		ifstream f_in(filename);
 		string no_space;
 		if (f_in.is_open()){
@@ -31,59 +30,62 @@ namespace io {
 				no_space += token;
 			}
 		}
-		stack<string> opening_tags, closing_tags;
-		bool tagopen;
+		return no_space;
+	}
+
+	void getClosingTags(const string &text){
 		
-		for (size_t i = 0; i < no_space.size(); i++){
-			const auto* character =&no_space.at(i);
+		stack<string> closing_tags;
+
+		for (size_t i = 0; i < text.size(); i++){
+			const auto* character = &text.at(i);
+			
 			if(*character == '<'){
 				string cur_tag;
 
 				if (*(character + 1) == '/'){
-					tagopen = false;
-					i++;
+					//i++;
 					character++;
-				}
-				else tagopen = true;{
-				
-				i++;
-				character++;}
-				
-				while(*character != '>'){
-					cur_tag += *character;
-					i++;
-					character++;
-					
-				}
-				if (tagopen){
-					opening_tags.push(cur_tag);
-				}
-				else if(!tagopen){
+					while(*character != '>'){
+						cur_tag += *character;
+						i++;
+						character++;
+						}
 					closing_tags.push(cur_tag);
 				}
 			}
 		}
+		while(!closing_tags.empty()){
+			cout<<closing_tags.top()<<endl;
+			closing_tags.pop();}
+	}
 
+	void getOpenTags(const string &text){
+		stack<string> opening_tags;
+		for (size_t i = 0; i < text.size(); i++){
+			const auto* character = &text.at(i);
+			
+			if(*character == '<'){
+				string cur_tag;
+
+				if (*(character + 1) != '/'){
+					i++;
+					character++;
+
+					while(*character != '>'){
+						cur_tag += *character;
+						i++;
+						character++;
+					}
+					opening_tags.push(cur_tag);
+				}
+			}
+		}
 		while(!opening_tags.empty()){
 			cout<<opening_tags.top()<<endl;
 			opening_tags.pop();
 		}
 		cout<<endl;
-		while(!closing_tags.empty()){
-			cout<<closing_tags.top()<<endl;
-			closing_tags.pop();
-		}
-		/*
-			string tag;
-			int pos = 0;
-			getline (cin,tag);
-			int ts = tag.find("<",pos);
-			while (ts!=string::npos){
-				int te = tag.find(">", ts+1);
-				cout<<tag.substr(ts, te-ts+1);
-				pos = te + 1;
-				ts = tag.find("<",pos);
-			}
-		*/
+
 	}
 }
