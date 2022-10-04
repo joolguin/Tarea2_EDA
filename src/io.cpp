@@ -34,6 +34,8 @@ namespace io {
 	}
 
 	void verifyHTML(const string &text){
+		ofstream myText;
+		myText.open("OUTPUT.log", ios::app);
 		stack <string> pila;
 		int Stop = 1;
 		int p = 0;
@@ -61,7 +63,8 @@ namespace io {
 					}
 					else{
 						if(pila.empty()){
-							cout<<"faltan tags para cerrar"<<endl;
+							
+							myText <<"faltan tags para cerrar"<<endl;
 							Stop = 0;
 						}
 						else{
@@ -77,12 +80,13 @@ namespace io {
 								}
 							}
 							if (tag != clo_tag){
-								cout<<"esperaba"<<" </"<<tag<<"> en la línea "<<count_tags<<endl;
+								
+								myText <<"esperaba"<<" </"<<tag<<"> en la línea "<<count_tags<<endl;
 								Stop=0;
 								error++;
 							}
 							if (tag == clo_tag) {
-								cout<< "tag <"<<tag<<"> ok"<<endl;
+								myText<< "tag <"<<tag<<"> ok"<<endl;
 								Stop=0;
 							}
 						}
@@ -93,11 +97,14 @@ namespace io {
 		}
 		if (Stop == 1){
 			if(!pila.empty()){
-				cout<<"error, faltan tags por cerrar"<<endl;
+				myText<<"error, faltan tags por cerrar"<<endl;
 			}
-			else cout<<"valido"<<endl;
+			else myText<<"valido"<<endl;
 
 		}
-		cout<<error<<" errores"<<endl;
+		myText<<error<<" errores"<<endl;
+		myText.close();
 	}
+
 }
+
