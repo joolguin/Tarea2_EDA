@@ -8,8 +8,6 @@ namespace io {
 	void readTextFile(const string &filename);
 	string removeSpace(const string &filename);
 	void verifyHTML(const string &text, string name);
-
-	
 }
 
 #endif
