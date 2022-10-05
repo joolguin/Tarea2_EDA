@@ -99,6 +99,7 @@ namespace io {
 		if (pila.size()!=0){
 			myText<<"En la linea "<<count_tags<<endl;
 			myText<<"<"+pila.top()+">"<<" no tiene un closing tag"<<endl;
+			error++;
 		}
 		if (error==0){
 		myText<<error<<" errores"<<endl;
