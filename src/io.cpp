@@ -33,9 +33,9 @@ namespace io {
 		return no_space;
 	}
 
-	void verifyHTML(const string &text){
+	void verifyHTML(const string &text, string name){
 		ofstream myText;
-		myText.open("OUTPUT.log", ios::app);
+		myText.open(name+".log", ios::app);
 		stack <string> pila;
 		int Stop = 1;
 		int p = 0;
@@ -63,13 +63,11 @@ namespace io {
 					}
 					else{
 						if(pila.empty()){
-							
 							myText <<"faltan tags para cerrar"<<endl;
 							Stop = 0;
 						}
 						else{
 							string tag = pila.top();
-							pila.pop();
 							if (*(character + 1) == '/'){
 							i++;
 							character+=2;
@@ -80,29 +78,31 @@ namespace io {
 								}
 							}
 							if (tag != clo_tag){
-								
-								myText <<"esperaba"<<" </"<<tag<<"> en la línea "<<count_tags<<endl;
+								myText<<"En la línea "<<count_tags<<endl;
+								myText <<"Se esperaba"<<" </"+tag+">"<<endl;
 								Stop=0;
 								error++;
+								break;
 							}
 							if (tag == clo_tag) {
 								myText<< "tag <"<<tag<<"> ok"<<endl;
 								Stop=0;
 							}
+							pila.pop();
 						}
 					}
 				}
 			}
 			p++;
 		}
-		if (Stop == 1){
-			if(!pila.empty()){
-				myText<<"error, faltan tags por cerrar"<<endl;
-			}
-			else myText<<"valido"<<endl;
-
+	
+		if (pila.size()!=0){
+			myText<<"En la linea "<<count_tags<<endl;
+			myText<<"<"+pila.top()+">"<<" no tiene un closing tag"<<endl;
 		}
+		if (error==0){
 		myText<<error<<" errores"<<endl;
+		}
 		myText.close();
 	}
 
