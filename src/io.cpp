@@ -38,7 +38,7 @@ namespace io {
 		myText.open(name+".log", ios::app);
 		stack <string> pila;
 		int error = 0;
-		int count_tags= 1;
+		int count_tags= 0;
 		int stop = 1;
 
 		for (size_t i = 0; i < text.size(); i++){
