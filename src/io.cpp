@@ -32,8 +32,7 @@ namespace io {
 		}
 		return no_space;
 	}
-
-
+	
 	void verifyHTML(const string &text, string name){
 		ofstream myText;
 		myText.open(name+".log", ios::app);
