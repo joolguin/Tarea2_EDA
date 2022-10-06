@@ -80,7 +80,6 @@ namespace io {
 							if (tag != clo_tag){
 								myText<<"En la línea "<<count_tags<<endl;
 								myText <<"Se esperaba"<<" </"+tag+">"<<endl;
-								Stop=0;
 								error++;
 								break;
 							}
